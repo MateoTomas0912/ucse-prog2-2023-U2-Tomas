@@ -13,6 +13,8 @@ import static java.lang.Thread.sleep;
 public class Main {
     public static void main(String[] args) throws RunnerException {
         //Ejercicio 2
+
+        System.out.print("Inicio la prueba");
         Options options = new OptionsBuilder()
                 .include(StreamBenchmark.class.getSimpleName())
                 .warmupIterations(5)
@@ -26,6 +28,7 @@ public class Main {
         CompletableFuture<Integer> futuro1 = CompletableFuture.supplyAsync(() -> {
             try {
                 int randomNum = ThreadLocalRandom.current().nextInt(100, 501);
+                System.out.println("El numero del futuro 1 es " + randomNum);
                 Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5001));
                 return randomNum;
             } catch (InterruptedException e) {
@@ -36,6 +39,7 @@ public class Main {
         CompletableFuture<Integer> futuro2 = CompletableFuture.supplyAsync(() -> {
             try{
                 int randomNum = ThreadLocalRandom.current().nextInt(100, 501);
+                System.out.println("El numero del futuro 2 es " + randomNum);
                 Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5001));
                 return randomNum;
             }catch (InterruptedException e) {
@@ -46,6 +50,7 @@ public class Main {
         CompletableFuture<Integer> futuro3 = CompletableFuture.supplyAsync(() -> {
             try{
                 int randomNum = ThreadLocalRandom.current().nextInt(100, 501);
+                System.out.println("El numero del futuro 3 es " + randomNum);
                 Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5001));
                 return randomNum;
             }catch (InterruptedException e) {
@@ -56,6 +61,7 @@ public class Main {
         CompletableFuture<Integer> futuro4 = CompletableFuture.supplyAsync(() -> {
             try{
                 int randomNum = ThreadLocalRandom.current().nextInt(100, 501);
+                System.out.println("El numero del futuro 4 es " + randomNum);
                 Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5001));
                 return randomNum;
             }catch (InterruptedException e) {
@@ -75,5 +81,14 @@ public class Main {
 
         int suma = futuros.join();
         System.out.println("La suma es : " + suma);
+
+        //Ejercicio 4
+        //Uso los mismos completable future que antes pero modifico "futuros"
+        CompletableFuture<Object> fastest = CompletableFuture.anyOf(futuro1, futuro2, futuro3, futuro4);
+        try {
+            System.out.println("El resultado más rápido es: " + fastest.get());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

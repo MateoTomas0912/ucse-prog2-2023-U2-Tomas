@@ -6,6 +6,7 @@ import org.openjdk.jmh.infra.Blackhole;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @State(Scope.Benchmark)
@@ -16,7 +17,7 @@ public class StreamBenchmark {
     public void setUp() {
         numeros = new ArrayList<>();
         Random random = new Random();
-        numeros = random.ints(10_000_000).boxed().collect(Collectors.toList());
+        numeros = random.ints(10_000).boxed().collect(Collectors.toList());
     }
 
     @Benchmark
