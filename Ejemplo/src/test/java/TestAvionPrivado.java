@@ -2,7 +2,7 @@ import org.example.AvionPrivado;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class AvionPrivadoTest {
+public class TestAvionPrivado {
     @Test
     public void volarTest(){
         //Instancio el avion

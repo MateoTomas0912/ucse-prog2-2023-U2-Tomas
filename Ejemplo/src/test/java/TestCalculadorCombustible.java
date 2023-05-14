@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class CalculadorCombustibleTest {
-
+public class TestCalculadorCombustible {
     @Test
     public void calcularCombustibleTest(){
         Avion avion = mock(Avion.class);
