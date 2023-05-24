@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="TestAvionPrivado" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-05-14T03:36:33" hostname="MTOMAS" time="0.002">
-  <properties/>
-  <testcase name="volarTest()" classname="TestAvionPrivado" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
