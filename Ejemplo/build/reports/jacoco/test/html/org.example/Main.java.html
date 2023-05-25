@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Ejemplo</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package org.example;
+
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.RunnerException;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ThreadLocalRandom;
+
+import static java.lang.Thread.sleep;
+
+<span class="nc" id="L13">public class Main {</span>
+    public static void main(String[] args) throws RunnerException {
+        //Ejercicio 2
+
+<span class="nc" id="L17">        System.out.print(&quot;Inicio la prueba&quot;);</span>
+<span class="nc" id="L18">        Options options = new OptionsBuilder()</span>
+<span class="nc" id="L19">                .include(StreamBenchmark.class.getSimpleName())</span>
+<span class="nc" id="L20">                .warmupIterations(5)</span>
+<span class="nc" id="L21">                .measurementIterations(10)</span>
+<span class="nc" id="L22">                .forks(1)</span>
+<span class="nc" id="L23">                .build();</span>
+
+<span class="nc" id="L25">        new Runner(options).run();</span>
+
+        //Ejercicio 3
+<span class="nc" id="L28">        CompletableFuture&lt;Integer&gt; futuro1 = CompletableFuture.supplyAsync(() -&gt; {</span>
+            try {
+<span class="nc" id="L30">                int randomNum = ThreadLocalRandom.current().nextInt(100, 501);</span>
+<span class="nc" id="L31">                System.out.println(&quot;El numero del futuro 1 es &quot; + randomNum);</span>
+<span class="nc" id="L32">                Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5001));</span>
+<span class="nc" id="L33">                return randomNum;</span>
+<span class="nc" id="L34">            } catch (InterruptedException e) {</span>
+<span class="nc" id="L35">                throw new RuntimeException(e);</span>
+            }
+        });
+
+<span class="nc" id="L39">        CompletableFuture&lt;Integer&gt; futuro2 = CompletableFuture.supplyAsync(() -&gt; {</span>
+            try{
+<span class="nc" id="L41">                int randomNum = ThreadLocalRandom.current().nextInt(100, 501);</span>
+<span class="nc" id="L42">                System.out.println(&quot;El numero del futuro 2 es &quot; + randomNum);</span>
+<span class="nc" id="L43">                Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5001));</span>
+<span class="nc" id="L44">                return randomNum;</span>
+<span class="nc" id="L45">            }catch (InterruptedException e) {</span>
+<span class="nc" id="L46">                throw new RuntimeException(e);</span>
+            }
+        });
+
+<span class="nc" id="L50">        CompletableFuture&lt;Integer&gt; futuro3 = CompletableFuture.supplyAsync(() -&gt; {</span>
+            try{
+<span class="nc" id="L52">                int randomNum = ThreadLocalRandom.current().nextInt(100, 501);</span>
+<span class="nc" id="L53">                System.out.println(&quot;El numero del futuro 3 es &quot; + randomNum);</span>
+<span class="nc" id="L54">                Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5001));</span>
+<span class="nc" id="L55">                return randomNum;</span>
+<span class="nc" id="L56">            }catch (InterruptedException e) {</span>
+<span class="nc" id="L57">                throw new RuntimeException(e);</span>
+            }
+        });
+
+<span class="nc" id="L61">        CompletableFuture&lt;Integer&gt; futuro4 = CompletableFuture.supplyAsync(() -&gt; {</span>
+            try{
+<span class="nc" id="L63">                int randomNum = ThreadLocalRandom.current().nextInt(100, 501);</span>
+<span class="nc" id="L64">                System.out.println(&quot;El numero del futuro 4 es &quot; + randomNum);</span>
+<span class="nc" id="L65">                Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5001));</span>
+<span class="nc" id="L66">                return randomNum;</span>
+<span class="nc" id="L67">            }catch (InterruptedException e) {</span>
+<span class="nc" id="L68">                throw new RuntimeException(e);</span>
+            }
+        });
+
+<span class="nc" id="L72">        CompletableFuture&lt;Integer&gt; futuros = CompletableFuture.allOf(futuro1, futuro2, futuro3, futuro4)</span>
+<span class="nc" id="L73">                .thenApply(v -&gt; {</span>
+<span class="nc" id="L74">                    int sum = 0;</span>
+<span class="nc" id="L75">                    sum += futuro1.join();</span>
+<span class="nc" id="L76">                    sum += futuro2.join();</span>
+<span class="nc" id="L77">                    sum += futuro3.join();</span>
+<span class="nc" id="L78">                    sum += futuro4.join();</span>
+<span class="nc" id="L79">                    return sum;</span>
+                });
+
+<span class="nc" id="L82">        int suma = futuros.join();</span>
+<span class="nc" id="L83">        System.out.println(&quot;La suma es : &quot; + suma);</span>
+
+        //Ejercicio 4
+        //Uso los mismos completable future que antes pero modifico &quot;futuros&quot;
+<span class="nc" id="L87">        CompletableFuture&lt;Object&gt; fastest = CompletableFuture.anyOf(futuro1, futuro2, futuro3, futuro4);</span>
+        try {
+<span class="nc" id="L89">            System.out.println(&quot;El resultado mÃ¡s rÃ¡pido es: &quot; + fastest.get());</span>
+<span class="nc" id="L90">        } catch (Exception e) {</span>
+<span class="nc" id="L91">            e.printStackTrace();</span>
+<span class="nc" id="L92">        }</span>
+<span class="nc" id="L93">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
